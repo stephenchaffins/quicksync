@@ -1,0 +1,47 @@
+# @Author: Stephen Chaffins <stephenchaffins>
+# @Date:   2018-03-08T20:24:41-05:00
+# @Email:  stephenchaffins@gmail.com
+# @Last modified by:   stephenchaffins
+# @Last modified time: 2018-03-08T20:44:43-05:00
+
+# First and foremost, please allow me to explain that this script is based
+# on Paul Wenzels (pwenzel) script "Perpetual Rsync", and uses Rsync
+# Perpetual Rsync: https://gist.github.com/pwenzel/4182838
+
+#!/bin/bash
+###################################################
+######## BE SURE TO CHANGE THESE VARIABLES ########
+######## OR THIS WONT WORK ########################
+###################################################
+destserv=$(echo "server1.yourdomain.com")
+usr=$(echo "USERNAME")
+PORT=$(echo "122")
+sndr=$(echo "you@server1.yourdomain.com")
+rcvr=$(echo "you@gmail.com")
+
+###################################################
+########### Leave these variables alone ###########
+###################################################
+srcdir=$1
+destdir=$2
+hst=$(/usr/bin/hostname)
+
+###################################################
+## The only things you MIGHT need to change here ##
+## is the text that's sent to you via email or ####
+## the output from the script itself. #############
+###################################################
+while [ 1 ]
+do
+    rsync -vaP -e "ssh -p $PORT" $usr@$destserv:$srcdir $destdir
+    if [ "$?" = "0" ] ; then
+        echo "Successful rsync..."
+        echo -e "Subject:Rsync Complete \n\n rsync of $srcdir has completed from $destserv to $hst \n" | /usr/sbin/sendmail -F $sndr -t $rcvr
+        exit
+    else
+        echo "rsync of $srcdir from $destserv failed. Retrying in 4 minutes..."
+        sleep 240
+    fi
+done
+
+exit 0
