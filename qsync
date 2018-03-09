@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # @Author: Stephen Chaffins <stephenchaffins>
 # @Date:   2018-03-08T20:24:41-05:00
 # @Email:  stephenchaffins@gmail.com
@@ -8,7 +10,6 @@
 # on Paul Wenzels (pwenzel) script "Perpetual Rsync", and uses Rsync
 # Perpetual Rsync: https://gist.github.com/pwenzel/4182838
 
-#!/bin/bash
 ###################################################
 ######## BE SURE TO CHANGE THESE VARIABLES ########
 ######## OR THIS WONT WORK ########################
